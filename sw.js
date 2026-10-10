@@ -1,5 +1,8 @@
 // 上海中考倒计时 · 离线缓存：首次打开后即可断网查看
-var CACHE = "zhongkao-countdown-v1";
+// 页面更新策略：HTML 走「网络优先」（保证内容是最新的，断网时回退缓存），
+// 图片/图标走「缓存优先 + 后台更新」。
+// 注意：修改 index.html / 图片后如想强制所有设备刷新，把下面的版本号 +1 即可。
+var CACHE = "zhongkao-countdown-v2";
 var ASSETS = [
   "./",
   "./index.html",
@@ -32,17 +35,37 @@ self.addEventListener("activate", function(e){
 });
 
 self.addEventListener("fetch", function(e){
-  if(e.request.method !== "GET") return;
-  e.respondWith(
-    caches.match(e.request, { ignoreSearch: true }).then(function(hit){
-      if(hit) return hit;
-      return fetch(e.request).then(function(res){
+  var req = e.request;
+  if(req.method !== "GET") return;
+
+  var accept = req.headers.get("accept") || "";
+  var isPage = req.mode === "navigate" || accept.indexOf("text/html") > -1;
+
+  if(isPage){
+    // 网络优先：拿到最新页面；断网时用缓存打开
+    e.respondWith(
+      fetch(req).then(function(res){
         var copy = res.clone();
-        caches.open(CACHE).then(function(c){ c.put(e.request, copy); }).catch(function(){});
+        caches.open(CACHE).then(function(c){ c.put(req, copy); }).catch(function(){});
         return res;
       }).catch(function(){
-        return caches.match("./index.html");
-      });
+        return caches.match(req, { ignoreSearch: true }).then(function(hit){
+          return hit || caches.match("./index.html");
+        });
+      })
+    );
+    return;
+  }
+
+  // 静态资源：先用缓存，后台顺手更新
+  e.respondWith(
+    caches.match(req, { ignoreSearch: true }).then(function(hit){
+      var fresh = fetch(req).then(function(res){
+        var copy = res.clone();
+        caches.open(CACHE).then(function(c){ c.put(req, copy); }).catch(function(){});
+        return res;
+      }).catch(function(){ return hit; });
+      return hit || fresh;
     })
   );
 });
