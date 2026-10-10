@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="上海中考倒计时：每日励志背景图，体育、外语听说与理化实验、正式考试三级倒计时，附考试安排与总分构成。">
+<title>上海中考倒计时</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#c93b28" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0e13" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="中考倒计时">
+<style>
+  :root{
+    --bg:#eceff4; --surface:#ffffff; --surface-2:#f6f7fa; --surface-3:#eef1f5;
+    --line:#dbdfe6; --line-strong:#c5cbd5;
+    --text:#111721; --text-2:#48515f; --muted:#78818f;
+    --accent:#c93b28; --accent-ink:#a82e1d; --accent-soft:#fdeae6;
+    --teal:#0d6f6f; --teal-soft:#e5f1f0;
+    --ok:#2c7a5b; --ok-soft:#e7f2ec;
+    --warn:#8a5b0c; --warn-soft:#faf0db;
+    --shadow:0 1px 2px rgba(17,23,33,.05), 0 10px 30px -22px rgba(17,23,33,.4);
+    --radius:8px; --radius-sm:6px;
+  }
+  html[data-theme="dark"]{
+    --bg:#0b0e13; --surface:#141a23; --surface-2:#1a212b; --surface-3:#202834;
+    --line:#252e3a; --line-strong:#36414f;
+    --text:#eef1f6; --text-2:#b4bdc9; --muted:#8b95a3;
+    --accent:#f2604c; --accent-ink:#ff8672; --accent-soft:#2c1714;
+    --teal:#41aaa6; --teal-soft:#0f2727;
+    --ok:#4cb185; --ok-soft:#12241d;
+    --warn:#d3a354; --warn-soft:#261f11;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 14px 40px -24px rgba(0,0,0,.8);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,"Segoe UI",sans-serif;
+    font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+    -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent;
+    padding:0 max(16px, env(safe-area-inset-left)) calc(56px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-right));
+  }
+  @media (display-mode:standalone){
+    body{padding-top:calc(10px + env(safe-area-inset-top))}
+  }
+  .wrap{max-width:1000px; margin:0 auto}
+  .num{font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1}
+  button{font:inherit; color:inherit; cursor:pointer}
+  h1,h2,h3{margin:0; font-weight:650; letter-spacing:0}
+
+  /* ---------- 顶栏 ---------- */
+  .topbar{display:flex; align-items:center; gap:12px; padding:18px 2px 14px; flex-wrap:wrap}
+  .brand{display:flex; align-items:center; gap:9px; min-width:0}
+  .brand .mark{
+    width:30px; height:30px; border-radius:7px; display:grid; place-items:center;
+    background:var(--accent); color:#fff; flex:0 0 auto;
+  }
+  .brand h1{font-size:16px; white-space:nowrap}
+  .brand .sub{font-size:12px; color:var(--muted); white-space:nowrap}
+  .spacer{flex:1 1 auto}
+  .iconbtn{
+    width:36px; height:36px; border-radius:var(--radius-sm);
+    border:1px solid var(--line); background:var(--surface);
+    display:inline-grid; place-items:center; color:var(--text-2);
+    transition:background .15s, border-color .15s, color .15s;
+  }
+  .iconbtn:hover{background:var(--surface-2); color:var(--text); border-color:var(--line-strong)}
+  .iconbtn:active{transform:translateY(1px)}
+
+  /* ---------- 卡片 ---------- */
+  .card{
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius); box-shadow:var(--shadow); padding:18px;
+  }
+  .card + .card, .levels + .card, .card + .levels{margin-top:16px}
+  .card-head{display:flex; align-items:center; gap:9px; margin-bottom:14px; flex-wrap:wrap}
+  .card-head h2{font-size:14px; font-weight:600; color:var(--text-2)}
+  .card-head svg{color:var(--muted); flex:0 0 auto}
+  .card-head .right{margin-left:auto; display:flex; align-items:center; gap:8px}
+
+  .chip{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:11.5px; font-weight:600; padding:2px 9px; border-radius:999px;
+    border:1px solid transparent; white-space:nowrap;
+  }
+  .chip.tight{gap:0}
+  .chip.wait{background:var(--surface-2); color:var(--muted); border-color:var(--line)}
+  .chip.done{background:var(--ok-soft); color:var(--ok)}
+  .chip.soft{background:var(--teal-soft); color:var(--teal)}
+  .chip.step{background:var(--accent-soft); color:var(--accent-ink); border-color:currentColor; font-weight:650}
+  .chip.step.s2{background:var(--teal-soft); color:var(--teal)}
+  .chip.step.s3{background:var(--ok-soft); color:var(--ok)}
+
+  /* ---------- 三级倒计时 ---------- */
+  /* 主视觉：每日一张励志背景图 + 倒计时 */
+  .hero{
+    position:relative; overflow:hidden; margin-top:16px;
+    border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:24px 20px 20px; text-align:center;
+    --hero-ink:#33240f; --hero-ink-2:#5b4520;
+    --hero-tile:rgba(255,255,255,.94); --hero-tile-line:rgba(140,105,45,.16);
+  }
+  html[data-theme="dark"] .hero{
+    --hero-ink:#f7f2e8; --hero-ink-2:#cdc4b4;
+    --hero-tile:rgba(255,255,255,.10); --hero-tile-line:rgba(255,255,255,.18);
+  }
+  .hero-bg{position:absolute; inset:0; background-size:cover; background-position:center; background-repeat:no-repeat}
+  .hero-veil{
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(255,251,244,.34) 0%, rgba(255,250,240,.60) 34%, rgba(255,248,236,.82) 72%, rgba(255,247,234,.92) 100%);
+  }
+  html[data-theme="dark"] .hero-veil{
+    background:linear-gradient(180deg, rgba(10,12,17,.56) 0%, rgba(10,12,17,.76) 34%, rgba(10,12,17,.88) 72%, rgba(10,12,17,.94) 100%);
+  }
+  .hero-inner{position:relative; z-index:1}
+  .hero-today, .hero-title, .hero-weeks, .hero-quote{
+    text-shadow:0 1px 0 rgba(255,255,255,.92), 0 0 16px rgba(255,255,255,.85);
+  }
+  html[data-theme="dark"] .hero-today,
+  html[data-theme="dark"] .hero-title,
+  html[data-theme="dark"] .hero-weeks,
+  html[data-theme="dark"] .hero-quote{
+    text-shadow:0 1px 0 rgba(0,0,0,.75), 0 0 16px rgba(0,0,0,.7);
+  }
+  .hero-today{font-size:12.5px; font-weight:500; color:var(--hero-ink-2); display:inline-flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:center}
+  .hero-today .sep{color:rgba(140,120,90,.5)}
+  .hero-title{font-size:17px; font-weight:650; color:var(--hero-ink); margin:10px 0 18px}
+  .hero-title b{color:var(--accent-ink)}
+  html[data-theme="dark"] .hero-title b{color:var(--accent)}
+  .tiles{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; max-width:600px; margin:0 auto}
+  .tile{
+    background:var(--hero-tile); border:1px solid var(--hero-tile-line);
+    border-radius:14px; padding:9px 9px 6px; min-width:0;
+    box-shadow:0 12px 26px -18px rgba(70,45,10,.75);
+  }
+  .tile .box{
+    aspect-ratio:1/1; border-radius:11px; display:grid; place-items:center;
+    background:linear-gradient(160deg,#f9d489 0%,#eeac48 100%);
+    color:#fff; font-weight:700; font-size:38px; line-height:1;
+    font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1;
+    text-shadow:0 1px 2px rgba(150,95,10,.25);
+  }
+  .tile .lab{font-size:13px; font-weight:600; color:var(--hero-ink-2); margin-top:7px}
+  .hero-weeks{
+    margin-top:16px; font-size:14px; color:var(--hero-ink-2);
+    display:flex; gap:11px; align-items:baseline; justify-content:center; flex-wrap:wrap;
+  }
+  .hero-weeks b{font-size:20px; color:var(--hero-ink); font-variant-numeric:tabular-nums}
+  .hero-weeks .frac{font-size:12.5px}
+  .hero-quote{
+    position:relative; margin:20px auto 0; max-width:560px; padding:0 34px;
+    font-size:16px; font-weight:600; line-height:1.95; color:var(--hero-ink);
+  }
+  .hero-quote::before, .hero-quote::after{
+    position:absolute; font-size:46px; line-height:1; color:rgba(216,152,62,.5); font-family:Georgia,serif;
+  }
+  .hero-quote::before{content:"\201C"; left:0; top:-12px}
+  .hero-quote::after{content:"\201D"; right:0; bottom:-26px}
+  .hero-cta{
+    margin-top:24px; display:inline-flex; align-items:center; gap:9px;
+    border:0; border-radius:999px; background:var(--accent); color:#fff;
+    font-size:15px; font-weight:600; padding:13px 26px;
+    box-shadow:0 12px 24px -14px rgba(190,55,35,.95);
+    transition:background .15s, transform .15s;
+  }
+  .hero-cta:hover{background:var(--accent-ink); transform:translateY(-1px)}
+  .hero-cta:active{transform:translateY(0)}
+  .hero-credit{font-size:11px; color:var(--hero-ink-2); opacity:.8; margin-top:16px}
+  .hero-credit a{color:inherit}
+  .hero-swap{
+    position:absolute; right:12px; top:12px; z-index:2;
+    width:32px; height:32px; border-radius:50%;
+    background:rgba(255,255,255,.82); border:1px solid var(--hero-tile-line);
+    color:#5a4626; display:grid; place-items:center;
+  }
+  html[data-theme="dark"] .hero-swap{background:rgba(255,255,255,.14); color:#f2ece1}
+  .hero-swap:hover{background:#fff}
+  html[data-theme="dark"] .hero-swap:hover{background:rgba(255,255,255,.24)}
+  .hero.is-over .tile .box{background:linear-gradient(160deg,#c9ccd2,#9aa1ab); text-shadow:none}
+
+  .levels{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:16px}
+  .lvl{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:16px; min-width:0;
+    display:flex; flex-direction:column; gap:11px;
+  }
+  .lvl.is-next{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent), var(--shadow)}
+  .lvl.is-past{opacity:.6}
+  .lvl-head{display:flex; align-items:center; gap:9px; flex-wrap:wrap}
+  .lvl-name{font-size:14.5px; font-weight:640; line-height:1.4}
+  .lvl-date{font-size:12.5px; color:var(--text-2); display:flex; gap:7px; align-items:baseline; flex-wrap:wrap}
+  .lvl-date .wk{color:var(--muted)}
+  .lvl-note{font-size:11.5px; color:var(--warn); background:var(--warn-soft); border-radius:6px; padding:5px 8px; line-height:1.5}
+  .lvl-note.info{color:var(--text-2); background:var(--surface-2); border:1px solid var(--line)}
+  .lvl .tiles{max-width:none; gap:8px}
+  .lvl .tile{background:var(--surface-2); border-color:var(--line); box-shadow:none; padding:6px 6px 4px; border-radius:11px}
+  .lvl .tile .box{font-size:22px; border-radius:8px}
+  .lvl .tile .lab{font-size:11.5px; margin-top:5px; color:var(--muted)}
+  .lvl-weeks{
+    display:flex; align-items:baseline; gap:9px; flex-wrap:wrap;
+    padding-top:11px; border-top:1px dashed var(--line); margin-top:auto;
+  }
+  .lvl-weeks .k{font-size:12px; color:var(--muted)}
+  .lvl-weeks b{font-size:17px; font-weight:660; font-variant-numeric:tabular-nums}
+  .lvl-weeks .frac{font-size:12px; color:var(--muted)}
+  .lvl-done{font-size:15px; font-weight:620; color:var(--muted); padding:12px 0}
+
+  /* ---------- 打气 ---------- */
+  .cheer-list{
+    list-style:none; margin:14px 0 0; padding:14px 0 0;
+    border-top:1px dashed var(--line); display:grid; gap:8px;
+  }
+  .cheer-list li{display:flex; gap:9px; align-items:flex-start; font-size:13.5px; color:var(--text-2)}
+  .cheer-list li::before{content:""; width:5px; height:5px; border-radius:50%; background:var(--line-strong); flex:0 0 auto; margin-top:8px}
+
+  /* ---------- 表格 ---------- */
+  .table-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .tbl{width:100%; border-collapse:collapse; font-size:13.5px}
+  .tbl th{
+    text-align:left; font-size:12px; font-weight:600; color:var(--muted);
+    padding:0 10px 8px; border-bottom:1px solid var(--line-strong); white-space:nowrap;
+  }
+  .tbl td{padding:11px 10px; border-bottom:1px solid var(--line); vertical-align:top}
+  .tbl tbody tr:last-child td{border-bottom:0}
+  .tbl .c-date{white-space:nowrap; font-weight:600}
+  .tbl .c-time{white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--text-2)}
+  .tbl .c-score{text-align:right; white-space:nowrap; font-weight:650; font-variant-numeric:tabular-nums}
+  .tbl .c-sub{font-size:12px; color:var(--muted); display:block; margin-top:2px; font-weight:400}
+  .tbl tfoot td{
+    border-top:1px solid var(--line-strong); border-bottom:0;
+    color:var(--text-2); font-size:12.5px; font-weight:600;
+  }
+  .tbl tfoot .c-score{font-size:14px; color:var(--text)}
+  .tbl .lv-chip{margin-right:7px}
+
+  /* ---------- 弹层 ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(10,14,20,.5);
+    display:flex; justify-content:center; align-items:flex-start;
+    padding:24px 16px; overflow-y:auto; z-index:50; backdrop-filter:blur(2px);
+  }
+  .overlay[hidden]{display:none}
+  .sheet{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    width:100%; max-width:700px; box-shadow:0 30px 70px -30px rgba(0,0,0,.6); margin:auto;
+  }
+  .sheet-head{
+    display:flex; align-items:center; gap:10px; padding:16px 18px;
+    border-bottom:1px solid var(--line); position:sticky; top:0;
+    background:var(--surface); border-radius:var(--radius) var(--radius) 0 0; z-index:2;
+  }
+  .sheet-head h2{font-size:16px}
+  .sheet-body{padding:18px; display:grid; gap:22px}
+  .sheet-foot{
+    display:flex; gap:10px; justify-content:flex-end; align-items:center;
+    padding:14px 18px; border-top:1px solid var(--line);
+    position:sticky; bottom:0; background:var(--surface);
+    border-radius:0 0 var(--radius) var(--radius); flex-wrap:wrap;
+  }
+  .sect > h3{font-size:13.5px; margin-bottom:10px; display:flex; align-items:center; gap:8px}
+  .sect > h3 svg{color:var(--muted)}
+  .hint{font-size:12px; color:var(--muted); margin-top:9px; line-height:1.7}
+  .mrow{
+    display:grid; grid-template-columns:minmax(0,1.3fr) minmax(160px,1fr) auto;
+    gap:10px; align-items:end; padding:12px;
+    border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface-2);
+  }
+  .mrow + .mrow{margin-top:10px}
+  .mrow .wide{grid-column:1/-1}
+  .mrow label{display:block; min-width:0}
+  .mrow label > span{display:block; font-size:11px; color:var(--muted); margin-bottom:4px}
+  .chk{display:flex !important; align-items:center; gap:7px; padding-bottom:8px}
+  .chk input{width:auto; margin:0}
+  .chk > span{margin:0 !important; font-size:12.5px !important; color:var(--text-2) !important; white-space:nowrap}
+
+  /* ---------- 表单元素 ---------- */
+  input[type=text],input[type=datetime-local]{
+    font:inherit; font-size:13.5px; color:var(--text);
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius-sm); padding:8px 9px; min-width:0; width:100%;
+  }
+  input:focus-visible,button:focus-visible{outline:2px solid var(--teal); outline-offset:1px}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:7px;
+    border:1px solid var(--line); background:var(--surface-2); color:var(--text);
+    border-radius:var(--radius-sm); padding:8px 13px; font-size:13.5px; font-weight:550;
+    transition:background .15s, border-color .15s;
+  }
+  .btn:hover{background:var(--surface-3); border-color:var(--line-strong)}
+  .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
+  .btn.primary:hover{background:var(--accent-ink); border-color:var(--accent-ink)}
+  .btn.danger{color:var(--accent-ink); border-color:var(--accent-soft); background:var(--accent-soft)}
+  .btn.small{padding:6px 10px; font-size:12.5px}
+  .seg{display:inline-flex; gap:4px; padding:4px; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-sm)}
+  .seg button{
+    border:0; background:transparent; color:var(--text-2);
+    padding:6px 12px; border-radius:4px; font-size:13px;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .seg button[aria-pressed="true"]{background:var(--surface); color:var(--text); box-shadow:0 1px 2px rgba(0,0,0,.12)}
+
+  footer.note{font-size:12px; color:var(--muted); margin-top:18px; line-height:1.75}
+  .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+
+  @media (max-width:860px){
+    .levels{grid-template-columns:minmax(0,1fr)}
+    .hero .tile .box{font-size:32px}
+    .lvl .tile .box{font-size:24px}
+  }
+  @media (max-width:680px){
+    body{
+      padding-left:max(12px, env(safe-area-inset-left));
+      padding-right:max(12px, env(safe-area-inset-right));
+      padding-bottom:calc(44px + env(safe-area-inset-bottom));
+    }
+    .card{padding:15px}
+    .hero{padding:20px 14px 18px}
+    .hero-title{font-size:15.5px; margin:9px 0 15px}
+    .tiles{gap:8px}
+    .hero .tile{padding:7px 7px 5px; border-radius:12px}
+    .hero .tile .box{font-size:26px}
+    .hero .tile .lab{font-size:11.5px; margin-top:5px}
+    .hero-weeks b{font-size:17px}
+    .hero-quote{font-size:14.5px; padding:0 26px; line-height:1.9}
+    .hero-quote::before, .hero-quote::after{font-size:36px}
+    .hero-cta{font-size:14px; padding:12px 20px; width:100%; max-width:330px; justify-content:center}
+    .lvl .tile .box{font-size:19px}
+    /* 表格转卡片式，避免横向溢出 */
+    .tbl thead{display:none}
+    .tbl, .tbl tbody, .tbl tfoot{display:block; width:100%}
+    .tbl tr{
+      display:block; border:1px solid var(--line); border-radius:var(--radius-sm);
+      background:var(--surface-2); padding:6px 4px; margin-bottom:8px;
+    }
+    .tbl tr:last-child{margin-bottom:0}
+    .tbl td{
+      display:grid; grid-template-columns:58px minmax(0,1fr); gap:10px;
+      align-items:baseline; border:0; padding:5px 10px; text-align:left;
+    }
+    .tbl td::before{
+      content:attr(data-label); color:var(--muted); font-size:12px;
+      font-weight:400;
+    }
+    .tbl td.c-score{text-align:left; font-weight:600}
+    .tbl td.c-group{display:block; padding:9px 10px 5px; color:var(--muted); font-size:12px}
+    .tbl td.c-group::before{display:none}
+    .tbl tfoot tr{background:var(--surface)}
+    .tbl tfoot td{border:0}
+    .mrow{grid-template-columns:minmax(0,1fr)}
+    .mrow .wide{grid-column:1}
+    .topbar{padding:14px 2px 12px}
+  }
+  @media (max-width:380px){
+    .hero .tile .box{font-size:22px}
+    .hero-title{font-size:14.5px}
+    .lvl .tile .box{font-size:17px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="topbar">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+      </span>
+      <div>
+        <h1>上海中考倒计时</h1>
+        <div class="sub" id="brandSub">—</div>
+      </div>
+    </div>
+    <span class="spacer"></span>
+    <button class="iconbtn" id="themeBtn" type="button" data-act="cycle-theme" title="切换主题" aria-label="切换主题"></button>
+    <button class="iconbtn" type="button" data-act="open-settings" title="设置日期" aria-label="设置">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero" id="hero"></section>
+    <section class="levels" id="levels" aria-label="阶段倒计时"></section>
+    <section class="card" id="cheerCard"></section>
+
+    <div id="details">
+    <section class="card" style="margin-top:16px">
+      <div class="card-head">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
+        <h2>具体考试安排</h2>
+        <span class="right"><span class="chip soft tight" id="schedCount"></span></span>
+      </div>
+      <div class="table-wrap">
+        <table class="tbl" id="scheduleTable"></table>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <div class="card-head">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        <h2>总分 750 分构成</h2>
+      </div>
+      <div class="table-wrap">
+        <table class="tbl" id="scoreTable"></table>
+      </div>
+    </section>
+    </div>
+
+    <footer class="note" id="pageNote"></footer>
+  </main>
+</div>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet-head">
+      <h2 id="sheetTitle">设置</h2>
+      <span class="spacer"></span>
+      <button class="iconbtn" type="button" data-act="close-settings" title="关闭" aria-label="关闭">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div class="sheet-body" id="sheetBody"></div>
+    <div class="sheet-foot">
+      <button class="btn danger small" type="button" data-act="reset-all">恢复默认日期</button>
+      <span class="spacer"></span>
+      <button class="btn primary" type="button" data-act="close-settings">完成</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ================= 存储 ================= */
+  var KEY = "sh-zhongkao-countdown-v3";
+  var mem = {};
+  var store = {
+    get: function(k){ try{ return window.localStorage.getItem(k); }catch(e){ return mem[k] == null ? null : mem[k]; } },
+    set: function(k,v){ mem[k] = v; try{ window.localStorage.setItem(k,v); }catch(e){} }
+  };
+
+  /* ================= 农历（1900-2100） ================= */
+  var LUNAR_INFO = [
+    0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
+    0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
+    0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,
+    0x06566,0x0d4a0,0x0ea50,0x06e95,0x05ad0,0x02b60,0x186e3,0x092e0,0x1c8d7,0x0c950,
+    0x0d4a0,0x1d8a6,0x0b550,0x056a0,0x1a5b4,0x025d0,0x092d0,0x0d2b2,0x0a950,0x0b557,
+    0x06ca0,0x0b550,0x15355,0x04da0,0x0a5b0,0x14573,0x052b0,0x0a9a8,0x0e950,0x06aa0,
+    0x0aea6,0x0ab50,0x04b60,0x0aae4,0x0a570,0x05260,0x0f263,0x0d950,0x05b57,0x056a0,
+    0x096d0,0x04dd5,0x04ad0,0x0a4d0,0x0d4d4,0x0d250,0x0d558,0x0b540,0x0b6a0,0x195a6,
+    0x095b0,0x049b0,0x0a974,0x0a4b0,0x0b27a,0x06a50,0x06d40,0x0af46,0x0ab60,0x09570,
+    0x04af5,0x04970,0x064b0,0x074a3,0x0ea50,0x06b58,0x05ac0,0x0ab60,0x096d5,0x092e0,
+    0x0c960,0x0d954,0x0d4a0,0x0da50,0x07552,0x056a0,0x0abb7,0x025d0,0x092d0,0x0cab5,
+    0x0a950,0x0b4a0,0x0baa4,0x0ad50,0x055d9,0x04ba0,0x0a5b0,0x15176,0x052b0,0x0a930,
+    0x07954,0x06aa0,0x0ad50,0x05b52,0x04b60,0x0a6e6,0x0a4e0,0x0d260,0x0ea65,0x0d530,
+    0x05aa0,0x076a3,0x096d0,0x04afb,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,
+    0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0,
+    0x14b63,0x09370,0x049f8,0x04970,0x064b0,0x168a6,0x0ea50,0x06b20,0x1a6c4,0x0aae0,
+    0x092e0,0x0d2e3,0x0c960,0x0d557,0x0d4a0,0x0da50,0x05d55,0x056a0,0x0a6d0,0x055d4,
+    0x052d0,0x0a9b8,0x0a950,0x0b4a0,0x0b6a6,0x0ad50,0x055a0,0x0aba4,0x0a5b0,0x052b0,
+    0x0b273,0x06930,0x07337,0x06aa0,0x0ad50,0x14b55,0x04b60,0x0a570,0x054e4,0x0d160,
+    0x0e968,0x0d520,0x0daa0,0x16aa6,0x056d0,0x04ae0,0x0a9d4,0x0a4d0,0x0d150,0x0f252,
+    0x0d520
+  ];
+  function leapMonth(y){ return LUNAR_INFO[y-1900] & 0xf; }
+  function leapDays(y){ return leapMonth(y) ? ((LUNAR_INFO[y-1900] & 0x10000) ? 30 : 29) : 0; }
+  function monthDays(y,m){ return (LUNAR_INFO[y-1900] & (0x10000 >> m)) ? 30 : 29; }
+  function lunarYearDays(y){
+    var sum = 348;
+    for(var i = 0x8000; i > 0x8; i >>= 1){ sum += (LUNAR_INFO[y-1900] & i) ? 1 : 0; }
+    return sum + leapDays(y);
+  }
+  function solar2lunar(y, m, d){
+    var offset = Math.floor((Date.UTC(y, m-1, d) - Date.UTC(1900,0,31)) / 86400000);
+    var temp = 0, i;
+    for(i = 1900; i < 2101 && offset > 0; i++){ temp = lunarYearDays(i); offset -= temp; }
+    if(offset < 0){ offset += temp; i--; }
+    var ly = i, leap = leapMonth(ly), isLeap = false;
+    for(i = 1; i < 13 && offset > 0; i++){
+      if(leap > 0 && i === leap + 1 && !isLeap){ --i; isLeap = true; temp = leapDays(ly); }
+      else { temp = monthDays(ly, i); }
+      if(isLeap && i === leap + 1) isLeap = false;
+      offset -= temp;
+    }
+    if(offset === 0 && leap > 0 && i === leap + 1){
+      if(isLeap){ isLeap = false; } else { isLeap = true; --i; }
+    }
+    if(offset < 0){ offset += temp; --i; }
+    return {y:ly, m:i, d:offset+1, leap:isLeap};
+  }
+  var GAN = "甲乙丙丁戊己庚辛壬癸";
+  var ZHI = "子丑寅卯辰巳午未申酉戌亥";
+  var ANIMALS = "鼠牛虎兔龙蛇马羊猴鸡狗猪";
+  var L_MONTH = ["正","二","三","四","五","六","七","八","九","十","冬","腊"];
+  var D1 = "初十廿三", D2 = "日一二三四五六七八九十";
+  function lunarToday(date){
+    var r = solar2lunar(date.getFullYear(), date.getMonth()+1, date.getDate());
+    var gz = GAN.charAt((r.y - 4) % 10) + ZHI.charAt((r.y - 4) % 12);
+    var animal = ANIMALS.charAt((r.y - 4) % 12);
+    var day = r.d === 10 ? "初十" : r.d === 20 ? "二十" : r.d === 30 ? "三十"
+      : D1.charAt(Math.floor(r.d/10)) + D2.charAt(r.d % 10);
+    return { gz: gz, animal: animal, month: (r.leap ? "闰" : "") + L_MONTH[r.m-1] + "月", day: day };
+  }
+
+  /* ================= 默认数据 ================= */
+  // 第一级：闵行区体育统一测试（尚未公布，暂按 4 月 8 日）
+  // 第二级：外语听说测试 + 物理和化学实验操作（暂按 5 月 16 日）
+  // 第三级：正式考试（6 月 20-21 日，笔试时段参考考试院 2026 年安排）
+  function defMilestones(){
+    return [
+      {id:"m1", name:"体育与健身统一测试", date:"2027-04-08T08:00", tbd:true, note:"闵行区时间暂未公布，暂按 4 月 8 日"},
+      {id:"m2", name:"外语听说测试 + 物理·化学实验操作", date:"2027-05-16T08:00", tbd:true, note:"时间以准考证为准，暂按 5 月 16 日"},
+      {id:"m3", name:"上海中考正式考试", date:"2027-06-20T09:00", tbd:false, note:"6 月 20-21 日共 6 场笔试"}
+    ];
+  }
+  // 笔试场次：科目、分值、第几天、时段（依据上海市教育考试院公布的时间结构）
+  var WRITTEN = [
+    {subject:"语文", score:150, day:0, start:"09:00", end:"10:40", note:"闭卷 · 100 分钟"},
+    {subject:"综合测试笔试", score:135, day:0, start:"14:00", end:"16:00", note:"物理 70 + 化学 50 + 跨学科案例分析 15 · 120 分钟"},
+    {subject:"历史", score:30, day:0, start:"16:50", end:"17:30", note:"开卷 · 40 分钟 · 满分 60 分含日常考核 30 分"},
+    {subject:"外语笔试", score:140, day:1, start:"09:00", end:"10:30", note:"含听力 25 分 · 8:55-9:00 听力试音 · 90 分钟"},
+    {subject:"数学", score:150, day:1, start:"14:00", end:"15:40", note:"闭卷 · 100 分钟"},
+    {subject:"道德与法治", score:30, day:1, start:"16:30", end:"17:10", note:"开卷 · 40 分钟 · 满分 60 分含日常考核 30 分"}
+  ];
+  // 总分 750 分构成
+  var SCORE_TABLE = [
+    {name:"语文", value:150, detail:"闭卷笔试 · 100 分钟"},
+    {name:"数学", value:150, detail:"闭卷笔试 · 100 分钟"},
+    {name:"外语", value:150, detail:"笔试 140 分（含听力 25 分，90 分钟）+ 听说测试 10 分（10 分钟，人机对话）"},
+    {name:"道德与法治", value:60, detail:"统一考试 30 分（开卷，40 分钟）+ 日常考核 30 分"},
+    {name:"历史", value:60, detail:"统一考试 30 分（开卷，40 分钟）+ 日常考核 30 分"},
+    {name:"综合测试", value:150, detail:"物理 70 分 + 化学 50 分 + 跨学科案例分析 15 分（笔试 120 分钟）+ 物理和化学实验操作 15 分（每场 15 分钟，可考 2 次取较高分）"},
+    {name:"体育与健身", value:30, detail:"统一测试 15 分（4-5 月）+ 日常考核 15 分"}
+  ];
+  var CHEERS = [
+    "把不会的弄懂，就是把分数一块一块捡回来。",
+    "不必和别人比进度，只要今天比昨天多会一点。",
+    "焦虑的反面不是放松，是具体的行动。",
+    "慢一点没关系，别停就好。",
+    "基础题全对，就是最大的黑马。",
+    "错题本上的每一道，都是提分的机会。",
+    "规律作息，比熬夜刷题更有用。",
+    "先完成，再完美。",
+    "今天的坚持，是考场上的底气。",
+    "再难的题，也是一步一步写出来的。",
+    "稳住节奏，你已经走了很远。",
+    "把大目标拆成今天这一页，剩下的交给时间。"
+  ];
+  // 每日轮换的励志背景图（图片来自 Wikimedia Commons，遵循各自授权协议）
+  var PHOTOS = [
+    {file:"day-1.jpg", theme:"竹 · 坚韧向上，节节生长", artist:"Diwa91", license:"CC BY-SA 4.0", title:"Light through the bamboo"},
+    {file:"day-2.jpg", theme:"云海日出 · 坚持攀登", artist:"Basile Morin", license:"CC BY-SA 4.0", title:"Karst peaks with sea of clouds at sunrise"},
+    {file:"day-3.jpg", theme:"茶园山峦 · 日积月累", artist:"Adbar", license:"CC BY-SA 3.0", title:"Tea plantation Haputale"},
+    {file:"day-4.jpg", theme:"破土幼苗 · 成长需要时间", artist:"Ksheera Piraati", license:"CC BY 4.0", title:"Young seedling emerging from soil"},
+    {file:"day-5.jpg", theme:"向上行走 · 毅力", artist:"Michael Rowe", license:"CC BY-SA 4.0", title:"Walking up Constantia Nek"},
+    {file:"day-6.jpg", theme:"长跑 · 自律与节奏", artist:"Julia Baykova", license:"CC BY 2.0", title:"Trail Running Lago Orta"},
+    {file:"day-7.jpg", theme:"灯塔 · 风浪中屹立", artist:"Ken Heaton", license:"CC BY-SA 4.0", title:"Louisbourg Lighthouse in a fall storm"}
+  ];
+
+  /* ================= 工具 ================= */
+  var WD = ["周日","周一","周二","周三","周四","周五","周六"];
+  function pad(n){ return (n < 10 ? "0" : "") + n; }
+  function parse(s){ var d = new Date(s); return isNaN(d.getTime()) ? null : d; }
+  function dayStart(d){ var x = new Date(d.getTime()); x.setHours(0,0,0,0); return x; }
+  function fmtTime(d){ return pad(d.getHours()) + ":" + pad(d.getMinutes()); }
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+      return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]);
+    });
+  }
+  function parts(ms){
+    var total = Math.floor(Math.max(0, ms) / 1000);
+    return { d: Math.floor(total/86400), h: Math.floor(total%86400/3600), m: Math.floor(total%3600/60), s: total%60 };
+  }
+  function weeksOf(ms){
+    var totalDays = Math.max(0, Math.ceil(ms / 86400000));
+    var w = Math.floor(totalDays / 7), rest = totalDays % 7;
+    return {
+      text: w + " 周" + (rest > 0 ? " " + rest + " 天" : ""),
+      frac: "约 " + (Math.max(0, ms) / 86400000 / 7).toFixed(1) + " 周"
+    };
+  }
+  function dayOfYear(d){
+    return Math.floor((dayStart(d) - dayStart(new Date(d.getFullYear(),0,1))) / 86400000);
+  }
+
+  /* ================= 状态 ================= */
+  var state = load();
+
+  function load(){
+    var saved = null;
+    var raw = store.get(KEY);
+    if(raw){ try{ saved = JSON.parse(raw); }catch(e){ saved = null; } }
+    var out = { milestones: defMilestones(), theme: "auto", photoOffset: 0, photoDate: "" };
+    if(saved && typeof saved === "object"){
+      if(saved.theme === "dark" || saved.theme === "light" || saved.theme === "auto") out.theme = saved.theme;
+      if(typeof saved.photoOffset === "number" && isFinite(saved.photoOffset)) out.photoOffset = Math.floor(saved.photoOffset);
+      if(typeof saved.photoDate === "string") out.photoDate = saved.photoDate;
+      if(Array.isArray(saved.milestones)){
+        var defs = defMilestones();
+        out.milestones = defs.map(function(def, i){
+          var s = saved.milestones[i] || {};
+          return {
+            id: typeof s.id === "string" ? s.id : def.id,
+            name: typeof s.name === "string" && s.name ? s.name : def.name,
+            date: typeof s.date === "string" && parse(s.date) ? s.date : def.date,
+            tbd: !!s.tbd,
+            note: typeof s.note === "string" ? s.note : def.note
+          };
+        });
+      }
+    }
+    return out;
+  }
+  var saveTimer = null;
+  function save(){
+    if(saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(function(){
+      try{ store.set(KEY, JSON.stringify(state)); }catch(e){}
+    }, 150);
+  }
+
+  /* ================= 派生数据 ================= */
+  function milestone(i){ return state.milestones[i]; }
+  function msDate(i){ var m = milestone(i); return m ? parse(m.date) : null; }
+  function msTarget(i){
+    var m = milestone(i), d = msDate(i);
+    if(!d) return null;
+    return m.tbd ? dayStart(d) : d;
+  }
+  function msEnd(i){
+    var d = msDate(i);
+    if(!d) return null;
+    var e = new Date(d.getTime()); e.setHours(23,59,59,0); return e;
+  }
+  function msState(i, now){
+    var d = msDate(i), e = msEnd(i);
+    if(!d) return "wait";
+    if(now < d) return "wait";
+    if(now > e) return "done";
+    return "live";
+  }
+  function mainDate(){ return msDate(2) || msDate(0) || msDate(1); }
+  function examYear(){ var d = mainDate(); return d ? d.getFullYear() : new Date().getFullYear(); }
+  // 笔试场次由第三级（正式考试）日期推出：第 1 天语文/综合/历史，第 2 天外语/数学/道德与法治
+  function writtenRows(){
+    var d1 = msDate(2);
+    if(!d1) return [];
+    var base = dayStart(d1);
+    return WRITTEN.map(function(w){
+      var day = new Date(base.getTime()); day.setDate(day.getDate() + w.day);
+      function at(hhmm){
+        var p = hhmm.split(":"), d = new Date(day.getTime());
+        d.setHours(+p[0], +p[1], 0, 0);
+        return d;
+      }
+      return { subject: w.subject, score: w.score, note: w.note, start: at(w.start), end: at(w.end) };
+    });
+  }
+
+  /* ================= 渲染：每日励志背景 + 正式考试倒计时 ================= */
+  function photoIndex(now){
+    var key = now.toDateString();
+    var off = (state.photoDate === key && typeof state.photoOffset === "number") ? state.photoOffset : 0;
+    var n = PHOTOS.length;
+    return ((dayOfYear(now) + off) % n + n) % n;
+  }
+  function tileHTML(idPrefix, p){
+    function t(key, label, val, plain){
+      return '<div class="tile"><div class="box' + (plain ? "" : " num") + '" id="' + idPrefix + key + '">' + val + '</div>' +
+        '<div class="lab">' + label + '</div></div>';
+    }
+    return '<div class="tiles">' +
+      t("d", "天", p.d) + t("h", "时", pad(p.h), true) + t("m", "分", pad(p.m), true) + t("s", "秒", pad(p.s), true) +
+    '</div>';
+  }
+  function heroHTML(now){
+    var m = milestone(2), d = msDate(2), st = msState(2, now);
+    var over = st === "done";
+    var target = msTarget(2);
+    var p = parts(target - now), w = weeksOf(target - now);
+    var lu = lunarToday(now);
+    var ph = PHOTOS[photoIndex(now)];
+    var quote = CHEERS[dayOfYear(now) % CHEERS.length];
+    var credit = '背景图：' + esc(ph.artist) + ' · ' + esc(ph.license) + ' · ' + esc(ph.theme) + '（Wikimedia Commons）';
+    return '' +
+      '<div class="hero-bg" style="background-image:url(\'assets/' + esc(ph.file) + '\')"></div>' +
+      '<div class="hero-veil"></div>' +
+      '<button class="hero-swap" type="button" data-act="swap-photo" title="换一张背景图" aria-label="换一张背景图">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>' +
+      '</button>' +
+      '<div class="hero-inner">' +
+        '<div class="hero-today">' +
+          '<span>今天 ' + now.getFullYear() + ' 年 ' + (now.getMonth()+1) + ' 月 ' + now.getDate() + ' 日 ' + WD[now.getDay()] + '</span>' +
+          '<span class="sep">·</span><span>农历' + esc(lu.month) + esc(lu.day) + '</span>' +
+          '<span class="sep">·</span><span>' + esc(lu.gz) + '年（' + esc(lu.animal) + '年）</span>' +
+        '</div>' +
+        '<h2 class="hero-title">' + (over ? esc(examYear()) + ' 年上海中考已经结束' :
+          '目前距离 <b>' + esc(examYear()) + ' 年上海中考</b>还有') + '</h2>' +
+        tileHTML("hv", p) +
+        '<div class="hero-weeks">' + (over ? '全部场次已结束' :
+          '还有 <b class="num" id="hv-w">' + w.text + '</b><span class="frac num" id="hv-f">' + w.frac + '</span>') + '</div>' +
+        '<div class="hero-quote">' + esc(quote) + '</div>' +
+        '<button class="hero-cta" type="button" data-act="goto-details">' +
+          '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/></svg>' +
+          '点击查看考试安排 · 分数构成' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
+        '</button>' +
+        '<div class="hero-credit">' + credit + '</div>' +
+      '</div>';
+  }
+
+  /* ================= 渲染：阶段倒计时（体育 / 外语听说 + 理化实验） ================= */
+  function levelCardHTML(i, now){
+    var m = milestone(i);
+    if(!m) return "";
+    var d = msDate(i);
+    var st = msState(i, now);
+    var rank = ["第一级","第二级","第三级"][i] || ("第" + (i+1) + "级");
+    var cls = "chip step" + (i === 1 ? " s2" : i === 2 ? " s3" : "");
+    var isNext = st === "wait" && state.milestones.every(function(_, j){ return j >= i || msState(j, now) === "done"; });
+
+    var head = '<div class="lvl-head"><span class="' + cls + '">' + rank + '</span>' +
+      '<span class="lvl-name">' + esc(m.name) + '</span>' +
+      (st === "done" ? '<span class="chip done">已结束</span>' : "") + '</div>';
+
+    var dateLine = '<div class="lvl-date">' +
+      (d ? esc((d.getMonth()+1) + " 月 " + d.getDate() + " 日") + '<span class="wk">' + WD[d.getDay()] + '</span>' : "日期待定") +
+      (m.tbd ? '<span class="wk">· 时间待定</span>' : (d ? '<span class="wk">· ' + fmtTime(d) + ' 开考</span>' : "")) +
+      '</div>';
+
+    var body;
+    if(st === "done"){
+      var ago = Math.max(0, Math.floor((now - msEnd(i)) / 86400000));
+      body = '<div class="lvl-done">已结束 · 距今 ' + ago + ' 天</div>';
+    } else if(st === "live"){
+      body = '<div class="lvl-done" style="color:var(--accent)">就是今天' + (m.tbd ? "，具体时间以准考证为准" : "") + '</div>';
+    } else {
+      var p = parts(msTarget(i) - now);
+      var w = weeksOf(msTarget(i) - now);
+      body = tileHTML("lv" + i, p) +
+        '<div class="lvl-weeks">' +
+          '<span class="k">周数</span>' +
+          '<b class="num" id="lv' + i + 'w">' + w.text + '</b>' +
+          '<span class="frac num" id="lv' + i + 'f">' + w.frac + '</span>' +
+        '</div>';
+    }
+
+    return '<div class="lvl' + (isNext ? " is-next" : "") + (st === "done" ? " is-past" : "") + '">' +
+      head + dateLine +
+      (m.note ? '<div class="lvl-note' + (m.tbd ? "" : " info") + '">' + esc(m.note) + '</div>' : "") +
+      body + '</div>';
+  }
+  function levelsHTML(now){
+    return levelCardHTML(0, now) + levelCardHTML(1, now);
+  }
+  function levelsSig(now){
+    return state.milestones.map(function(_, i){ return msState(i, now); }).join("-");
+  }
+
+  /* ================= 渲染：打气 ================= */
+  function cheerHTML(){
+    var start = dayOfYear(new Date()) % CHEERS.length;
+    var rest = [1,2,3,4].map(function(k){ return CHEERS[(start + k) % CHEERS.length]; });
+    return '' +
+      '<div class="card-head">' +
+        '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>' +
+        '<h2>再送你几句打气的话</h2>' +
+      '</div>' +
+      '<ul class="cheer-list" style="margin-top:0;padding-top:0;border-top:0">' +
+        rest.map(function(t){ return '<li>' + esc(t) + '</li>'; }).join("") + '</ul>';
+  }
+
+  /* ================= 渲染：表格 ================= */
+  function scheduleRows(now){
+    var rows = [];
+    state.milestones.slice(0,2).forEach(function(m, i){
+      var d = msDate(i);
+      rows.push({
+        date: d, dateText: d ? ((d.getMonth()+1) + "月" + d.getDate() + "日") : "待定", wd: d ? WD[d.getDay()] : "",
+        time: m.tbd ? "时间待定" : (d ? fmtTime(d) : "待定"),
+        subject: m.name,
+        note: i === 0 ? "满分 30 分 = 统一测试 15 分 + 日常考核 15 分"
+            : "外语听说 10 分 + 物理和化学实验操作 15 分",
+        score: i === 0 ? "30 分" : "25 分",
+        rank: i === 0 ? "第一级" : "第二级",
+        cls: i === 0 ? "" : " s2"
+      });
+    });
+    var rows2 = writtenRows().map(function(r){
+      return {
+        date: r.start, dateText: (r.start.getMonth()+1) + "月" + r.start.getDate() + "日", wd: WD[r.start.getDay()],
+        time: fmtTime(r.start) + "-" + fmtTime(r.end),
+        subject: r.subject, note: r.note, score: r.score + " 分", rank: "", cls: ""
+      };
+    });
+    return rows.concat(rows2);
+  }
+  function scheduleTableHTML(now){
+    var rows = scheduleRows(now);
+    var writtenTotal = writtenRows().reduce(function(a,r){ return a + r.score; }, 0);
+    var body = rows.map(function(r, i){
+      var group = "";
+      if(i === 2){
+        var m3 = milestone(2), d3 = msDate(2);
+        group = '<tr><td colspan="4" class="c-group" style="padding-top:16px;border-bottom:0;color:var(--muted);font-size:12px">' +
+          '第三级 · ' + esc(m3.name) + (d3 ? '（' + esc((d3.getMonth()+1) + "月" + d3.getDate() + "日") +
+          (msDate(2) && writtenRows().length > 1 ? " - " + (writtenRows()[writtenRows().length-1].start.getMonth()+1) + "月" +
+          writtenRows()[writtenRows().length-1].start.getDate() + "日" : "") + '）' : "") + '</td></tr>';
+      }
+      return group +
+        '<tr>' +
+          '<td class="c-date" data-label="日期">' + esc(r.dateText) + '<span class="c-sub">' + esc(r.wd) + '</span></td>' +
+          '<td class="c-time" data-label="时间">' + esc(r.time) + '</td>' +
+          '<td data-label="科目">' +
+            (r.rank ? '<span class="chip step' + r.cls + ' lv-chip">' + esc(r.rank) + '</span>' : "") +
+            esc(r.subject) + (r.note ? '<span class="c-sub">' + esc(r.note) + '</span>' : "") +
+          '</td>' +
+          '<td class="c-score" data-label="分值">' + esc(r.score) + '</td>' +
+        '</tr>';
+    }).join("");
+    return '<thead><tr><th>日期</th><th>时间</th><th>科目</th><th class="c-score">分值</th></tr></thead>' +
+      '<tbody>' + body + '</tbody>' +
+      '<tfoot><tr><td colspan="3">正式考试 6 场笔试合计</td><td class="c-score">' + writtenTotal + ' 分</td></tr></tfoot>';
+  }
+  function scoreTableHTML(){
+    var total = SCORE_TABLE.reduce(function(a,r){ return a + r.value; },0);
+    var body = SCORE_TABLE.map(function(r){
+      return '<tr><td data-label="科目" style="font-weight:600">' + esc(r.name) + '</td>' +
+        '<td class="c-score" data-label="分值">' + r.value + ' 分</td>' +
+        '<td data-label="说明"><span style="color:var(--text-2)">' + esc(r.detail) + '</span></td></tr>';
+    }).join("");
+    return '<thead><tr><th>科目</th><th class="c-score">分值</th><th>说明</th></tr></thead>' +
+      '<tbody>' + body + '</tbody>' +
+      '<tfoot><tr><td>合计</td><td class="c-score">' + total + ' 分</td>' +
+      '<td>语文、数学、外语、道德与法治、历史、体育与健身和综合测试的成绩作为录取基本依据</td></tr></tfoot>';
+  }
+  function pageNoteHTML(){
+    var y = examYear();
+    return y + ' 年上海中考时间尚未由上海市教育考试院公布：第三级「正式考试」与第二级「外语听说测试、物理和化学实验操作」为按官方发布规律预估，闵行区体育统一测试时间暂未公布、先按 4 月 8 日，均可在设置中修改。' +
+      '笔试时段与分值结构参照上海市教育考试院公布的 2026 年上海市初中学业水平考试安排（语文 9:00-10:40、综合测试笔试 14:00-16:00、历史开卷 16:50-17:30；外语笔试 9:00-10:30、数学 14:00-15:40、道德与法治开卷 16:30-17:10）。' +
+      '成绩与日程请以「上海招考热线」shmeea.edu.cn 公布为准。';
+  }
+
+  /* ================= 渲染入口 ================= */
+  var overlay = document.getElementById("overlay");
+  var sheetBody = document.getElementById("sheetBody");
+  var lastSig = "", lastToday = "";
+
+  function applyTheme(){
+    var t = state.theme;
+    var resolved = t === "auto"
+      ? ((window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light")
+      : t;
+    document.documentElement.setAttribute("data-theme", resolved);
+    var icons = {
+      light:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
+      dark:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>',
+      auto:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>'
+    };
+    var btn = document.getElementById("themeBtn");
+    btn.innerHTML = icons[t];
+    btn.title = t === "auto" ? "主题：跟随系统（点击切换）" : "主题：" + (t === "dark" ? "深色" : "浅色") + "（点击切换）";
+  }
+
+  function renderToday(now){
+    var el = document.getElementById("hero");
+    el.innerHTML = heroHTML(now);
+    if(msState(2, now) === "done") el.classList.add("is-over");
+    else el.classList.remove("is-over");
+  }
+  function renderLevels(now){
+    document.getElementById("levels").innerHTML = levelsHTML(now);
+    lastSig = levelsSig(now);
+  }
+  function renderAll(){
+    var now = new Date();
+    renderToday(now);
+    renderLevels(now);
+    document.getElementById("cheerCard").innerHTML = cheerHTML();
+    document.getElementById("scheduleTable").innerHTML = scheduleTableHTML(now);
+    document.getElementById("scoreTable").innerHTML = scoreTableHTML();
+    document.getElementById("schedCount").textContent = "共 " + scheduleRows(now).length + " 项";
+    document.getElementById("pageNote").textContent = pageNoteHTML();
+    document.getElementById("brandSub").textContent = examYear() + " 年上海中考 · 三级倒计时";
+    lastToday = now.toDateString();
+  }
+
+  /* ================= 每秒更新 ================= */
+  function tick(){
+    var now = new Date();
+    if(now.toDateString() !== lastToday){ renderAll(); return; }
+    if(levelsSig(now) !== lastSig){ renderAll(); return; }
+    function paint(prefix, i){
+      if(msState(i, now) === "done") return;
+      var target = msTarget(i), el;
+      if(!target) return;
+      var p = parts(target - now);
+      if((el = document.getElementById(prefix + "d"))) el.textContent = p.d;
+      if((el = document.getElementById(prefix + "h"))) el.textContent = pad(p.h);
+      if((el = document.getElementById(prefix + "m"))) el.textContent = pad(p.m);
+      if((el = document.getElementById(prefix + "s"))) el.textContent = pad(p.s);
+      var w = weeksOf(target - now);
+      if((el = document.getElementById(prefix + "w"))) el.textContent = w.text;
+      if((el = document.getElementById(prefix + "f"))) el.textContent = w.frac;
+    }
+    paint("hv", 2);
+    paint("lv0", 0);
+    paint("lv1", 1);
+  }
+
+  /* ================= 设置面板 ================= */
+  function settingsHTML(){
+    var rows = state.milestones.map(function(m, i){
+      var rank = ["第一级","第二级","第三级"][i] || ("第" + (i+1) + "级");
+      return '<div class="mrow">' +
+        '<label><span>' + rank + ' 名称</span>' +
+          '<input type="text" value="' + esc(m.name) + '" data-act="m-name" data-i="' + i + '"></label>' +
+        '<label><span>日期时间</span>' +
+          '<input type="datetime-local" value="' + esc(m.date) + '" data-act="m-date" data-i="' + i + '"></label>' +
+        '<label class="chk"><input type="checkbox" data-act="m-tbd" data-i="' + i + '"' + (m.tbd ? " checked" : "") + '><span>时间待定</span></label>' +
+        '<label class="wide"><span>备注</span>' +
+          '<input type="text" value="' + esc(m.note) + '" data-act="m-note" data-i="' + i + '"></label>' +
+      '</div>';
+    }).join("");
+
+    var themes = [["light","浅色"],["dark","深色"],["auto","跟随系统"]].map(function(t){
+      return '<button type="button" data-act="theme" data-theme="' + t[0] + '" aria-pressed="' + (state.theme === t[0]) + '">' + t[1] + '</button>';
+    }).join("");
+
+    return '' +
+      '<div class="sect">' +
+        '<h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>三级日期</h3>' +
+        rows +
+        '<div class="hint">勾选「时间待定」的级别只按日期倒计时（倒计时对准当天 0 点）。' +
+          '第三级日期同时决定笔试场次：第 1 天为语文、综合测试笔试、历史，第 2 天为外语笔试、数学、道德与法治，时段按考试院公布的安排固定。</div>' +
+      '</div>' +
+      '<div class="sect">' +
+        '<h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>外观</h3>' +
+        '<div class="seg" role="group" aria-label="主题">' + themes + '</div>' +
+        '<div class="hint">所有设置自动保存在本机浏览器中。</div>' +
+      '</div>';
+  }
+
+  var lastFocus = null;
+  function openSettings(){
+    lastFocus = document.activeElement;
+    sheetBody.innerHTML = settingsHTML();
+    overlay.hidden = false;
+    document.body.style.overflow = "hidden";
+    var first = sheetBody.querySelector("input,button");
+    if(first) first.focus({preventScroll:true});
+  }
+  function closeSettings(){
+    overlay.hidden = true;
+    document.body.style.overflow = "";
+    renderAll();
+    if(lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true});
+  }
+
+  /* ================= 事件 ================= */
+  document.addEventListener("click", function(ev){
+    var t = ev.target.closest("[data-act]");
+    if(!t) return;
+    var act = t.getAttribute("data-act");
+
+    if(act === "open-settings"){ openSettings(); return; }
+    if(act === "close-settings"){ closeSettings(); return; }
+    if(act === "goto-details"){
+      var box = document.getElementById("details");
+      if(box && box.scrollIntoView) box.scrollIntoView({behavior:"smooth", block:"start"});
+      return;
+    }
+    if(act === "swap-photo"){
+      var key = new Date().toDateString();
+      state.photoOffset = (state.photoDate === key ? (state.photoOffset || 0) : 0) + 1;
+      state.photoDate = key;
+      save();
+      renderToday(new Date());
+      return;
+    }
+    if(act === "cycle-theme"){
+      state.theme = state.theme === "auto" ? "light" : state.theme === "light" ? "dark" : "auto";
+      applyTheme(); save();
+      if(!overlay.hidden) sheetBody.innerHTML = settingsHTML();
+      return;
+    }
+    if(act === "theme"){
+      state.theme = t.getAttribute("data-theme");
+      applyTheme(); save();
+      sheetBody.innerHTML = settingsHTML();
+      return;
+    }
+    if(act === "reset-all"){
+      if(!window.confirm("恢复默认日期？三级日期与备注将回到初始值。")) return;
+      state = { milestones: defMilestones(), theme: state.theme, photoOffset: state.photoOffset, photoDate: state.photoDate };
+      save();
+      renderAll();
+      sheetBody.innerHTML = settingsHTML();
+      return;
+    }
+  });
+
+  overlay.addEventListener("click", function(ev){ if(ev.target === overlay) closeSettings(); });
+  document.addEventListener("keydown", function(ev){ if(ev.key === "Escape" && !overlay.hidden) closeSettings(); });
+
+  document.addEventListener("input", function(ev){
+    var t = ev.target;
+    var act = t.getAttribute && t.getAttribute("data-act");
+    if(!act) return;
+    var i = +t.getAttribute("data-i");
+    var m = state.milestones[i];
+    if(!m) return;
+
+    if(act === "m-name"){ m.name = t.value; save(); renderAll(); return; }
+    if(act === "m-note"){ m.note = t.value; save(); renderAll(); return; }
+    if(act === "m-tbd"){ m.tbd = !!t.checked; save(); renderAll(); return; }
+    if(act === "m-date"){
+      if(!parse(t.value)) return;
+      m.date = t.value;
+      save(); renderAll();
+      return;
+    }
+  });
+
+  if(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").addEventListener){
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(){
+      if(state.theme === "auto") applyTheme();
+    });
+  }
+  document.addEventListener("visibilitychange", function(){ if(!document.hidden) tick(); });
+
+  applyTheme();
+  renderAll();
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
+<script>
+(function(){
+  // 只在通过网址（http/https）打开时注册离线缓存；本地双击打开会自动跳过
+  if(!("serviceWorker" in navigator) || location.protocol.indexOf("http") !== 0) return;
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("sw.js").catch(function(){});
+  });
+})();
+</script>
+</body>
+</html>

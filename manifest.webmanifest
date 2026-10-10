@@ -1,0 +1,16 @@
+{
+  "name": "上海中考倒计时",
+  "short_name": "中考倒计时",
+  "description": "上海中考三级倒计时：体育、外语听说与理化实验、正式考试，附考试安排与总分构成。",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eceff4",
+  "theme_color": "#c93b28",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
