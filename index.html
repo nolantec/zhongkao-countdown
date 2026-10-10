@@ -239,6 +239,40 @@
   .tbl tfoot .c-score{font-size:14px; color:var(--text)}
   .tbl .lv-chip{margin-right:7px}
 
+  /* ---------- 折叠分区 ---------- */
+  .acc{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); margin-top:16px; overflow:hidden;
+  }
+  .acc > summary{
+    list-style:none; cursor:pointer; display:flex; align-items:center; gap:10px;
+    padding:16px 18px; font-size:14px; font-weight:600; color:var(--text-2);
+  }
+  .acc > summary::-webkit-details-marker{display:none}
+  .acc > summary:hover{background:var(--surface-2)}
+  .acc > summary:focus-visible{outline:2px solid var(--teal); outline-offset:-2px}
+  .acc > summary > svg:first-child{flex:0 0 auto}
+  .acc-title{color:var(--text); font-weight:620; min-width:0}
+  .acc .chev{margin-left:auto; color:var(--muted); transition:transform .2s ease}
+  .acc[open] > summary{border-bottom:1px solid var(--line)}
+  .acc[open] .chev{transform:rotate(180deg)}
+  .acc-body{padding:16px 18px}
+  .acc-body h3{font-size:13.5px; margin:20px 0 10px; display:flex; align-items:center; gap:8px}
+  .acc-body h3:first-child{margin-top:0}
+  .acc-note{margin:10px 0 0; font-size:12px; color:var(--muted); line-height:1.75}
+  .pe-list{margin:0; padding-left:19px; font-size:13.5px; color:var(--text-2); line-height:1.85}
+  .pe-list li{margin:3px 0}
+  .pe-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px}
+  .pe-head .pe-hint{font-size:11.5px; color:var(--muted)}
+  /* 宽表格：横向滑动，首列固定 */
+  .tbl.wide{width:max-content; min-width:100%}
+  .tbl.wide th, .tbl.wide td{text-align:center; white-space:nowrap; padding:7px 9px}
+  .tbl.wide th:first-child, .tbl.wide td:first-child{
+    position:sticky; left:0; z-index:1; background:var(--surface);
+    font-weight:650; box-shadow:1px 0 0 var(--line);
+  }
+  .tbl.wide tbody tr:nth-child(-n+4) td:first-child{color:var(--accent-ink)}
+
   /* ---------- 弹层 ---------- */
   .overlay{
     position:fixed; inset:0; background:rgba(10,14,20,.5);
@@ -351,6 +385,13 @@
     .tbl td.c-score{text-align:left; font-weight:600}
     .tbl td.c-group{display:block; padding:9px 10px 5px; color:var(--muted); font-size:12px}
     .tbl td.c-group::before{display:none}
+    /* 宽表格保持表格形态，横向滑动查看 */
+    .tbl.wide{display:table}
+    .tbl.wide thead{display:table-header-group}
+    .tbl.wide tbody{display:table-row-group}
+    .tbl.wide tr{display:table-row; border:0; border-radius:0; background:transparent; padding:0; margin:0}
+    .tbl.wide td, .tbl.wide th{display:table-cell; text-align:center; padding:7px 9px}
+    .tbl.wide td::before{display:none}
     .tbl tfoot tr{background:var(--surface)}
     .tbl tfoot td{border:0}
     .mrow{grid-template-columns:minmax(0,1fr)}
@@ -389,26 +430,43 @@
     <section class="card" id="cheerCard"></section>
 
     <div id="details">
-    <section class="card" style="margin-top:16px">
-      <div class="card-head">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
-        <h2>具体考试安排</h2>
-        <span class="right"><span class="chip soft tight" id="schedCount"></span></span>
-      </div>
-      <div class="table-wrap">
-        <table class="tbl" id="scheduleTable"></table>
-      </div>
-    </section>
+      <details class="acc" data-acc="sched">
+        <summary>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
+          <span class="acc-title">具体考试安排</span>
+          <span class="chip soft tight" id="schedCount"></span>
+          <svg class="chev" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="acc-body">
+          <div class="table-wrap">
+            <table class="tbl" id="scheduleTable"></table>
+          </div>
+        </div>
+      </details>
 
-    <section class="card" style="margin-top:16px">
-      <div class="card-head">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-        <h2>总分 750 分构成</h2>
-      </div>
-      <div class="table-wrap">
-        <table class="tbl" id="scoreTable"></table>
-      </div>
-    </section>
+      <details class="acc" data-acc="score">
+        <summary>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          <span class="acc-title">总分 750 分构成</span>
+          <span class="chip soft tight">750 分</span>
+          <svg class="chev" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="acc-body">
+          <div class="table-wrap">
+            <table class="tbl" id="scoreTable"></table>
+          </div>
+        </div>
+      </details>
+
+      <details class="acc" data-acc="pe">
+        <summary>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h12"/><path d="M6 6h12"/><path d="M6 12h12"/><circle cx="12" cy="12" r="10"/></svg>
+          <span class="acc-title">体育评分（统一考试 15 分 + 日常考核 15 分）</span>
+          <span class="chip soft tight">30 分</span>
+          <svg class="chev" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="acc-body" id="peBody"></div>
+      </details>
     </div>
 
     <footer class="note" id="pageNote"></footer>
@@ -539,6 +597,69 @@
     {name:"综合测试", value:150, detail:"物理 70 分 + 化学 50 分 + 跨学科案例分析 15 分（笔试 120 分钟）+ 物理和化学实验操作 15 分（每场 15 分钟，可考 2 次取较高分）"},
     {name:"体育与健身", value:30, detail:"统一测试 15 分（4-5 月）+ 日常考核 15 分"}
   ];
+  // 体育统一考试结构（上海市初中毕业升学体育统一考试）
+  var PE_STRUCT = [
+    {cat:"第一类项目", score:"6 分", items:"男生：1000 米跑 / 200 米游泳 / 4 分钟跳绳（三选一）<br>女生：800 米跑 / 200 米游泳 / 4 分钟跳绳（三选一）"},
+    {cat:"第二类项目", score:"3 分", items:"男生：50 米跑 / 立定跳远 / 实心球 / 引体向上 / 25 米游泳（五选一）<br>女生：50 米跑 / 立定跳远 / 实心球 / 仰卧起坐 / 25 米游泳（五选一）"},
+    {cat:"第三类项目", score:"3 分", items:"男女相同：乒乓球 / 羽毛球 / 网球 / 武术 / 体操（五选一）"},
+    {cat:"第四类项目", score:"3 分", items:"男女相同：足球 / 篮球 / 排球（三选一）"}
+  ];
+  // 部分项目成绩评价标准：分值（百分制）→ 各项目成绩
+  var PE_COLS_M = ["1000 米跑","200 米游泳","篮球（秒）","排球 40 秒（次）","50 米跑（秒）","25 米游泳（秒）","足球运球（秒）","立定跳远（米）","实心球（米）","4 分钟跳绳（次）","引体向上（次）"];
+  var PE_COLS_F = ["800 米跑","200 米游泳","篮球（秒）","排球 40 秒（次）","50 米跑（秒）","25 米游泳（秒）","足球运球（秒）","立定跳远（米）","实心球（米）","4 分钟跳绳（次）","一分钟仰卧起坐（次）"];
+  var PE_ROWS_M = [
+    [100,"3:55","4:36",20,45,"7.1","22.0","7.6","2.49","9.70",400,11],
+    [95,"4:03","4:48",21,43,"7.2","23.0","8.7","2.41","9.40",395,10],
+    [90,"4:11","5:00",22,40,"7.3","24.0","9.6","2.33","9.10",390,9],
+    [85,"4:19","5:12",23,37,"7.4","25.0","10.5","2.25","8.80",385,null],
+    [80,"4:27","5:24",24,34,"7.5","26.0","11.3","2.20","8.50",380,8],
+    [75,"4:32","5:36",25,31,"7.6","27.0","12.2","2.15","8.20",370,null],
+    [70,"4:37","5:48",27,29,"7.7","28.0","13.1","2.10","7.90",365,7],
+    [65,"4:42","6:00",29,26,"7.9","29.0","14.3","2.06","7.60",360,null],
+    [60,"4:47","6:12",31,23,"8.1","30.0","15.5","2.02","7.30",340,6],
+    [55,"4:53","6:24",33,20,"8.3","31.0","16.0","1.98","7.00",320,null],
+    [50,"4:59","6:36",35,18,"8.5","32.0","16.8","1.94","6.70",300,5],
+    [45,"5:05","6:48",37,16,"8.7","33.0","17.4","1.90","6.40",290,null],
+    [40,"5:11","7:00",39,14,"8.9","34.0","17.9","1.86","6.10",285,4],
+    [35,"5:17","7:12",41,12,"9.1","35.0","18.3","1.82","5.80",280,null],
+    [30,"5:23","7:24",43,10,"9.3","36.0","19.0","1.78","5.50",275,3],
+    [25,"5:29","7:36",45,8,"9.5","37.0","19.6","1.74","5.20",270,null],
+    [20,"5:35","7:48",47,6,"9.7","38.0","20.0","1.70","4.90",265,2],
+    [15,"5:41","8:00",49,5,"9.9","39.0","20.5","1.66","4.60",260,null],
+    [10,"5:47","8:12",51,4,"10.1","40.0","21.0","1.62","4.30",255,1],
+    [5,"5:53","8:24",53,3,"10.3","41.0","21.5","1.58","4.00",250,null]
+  ];
+  var PE_ROWS_F = [
+    [100,"3:40","4:56",26,45,"8.1","25.0","8.5","1.99","6.80",405,50],
+    [95,"3:48","5:08",27,43,"8.2","26.0","10.8","1.93","6.60",400,47],
+    [90,"3:56","5:20",28,40,"8.3","27.0","12.9","1.87","6.40",395,44],
+    [85,"4:04","5:32",30,37,"8.4","28.0","14.2","1.81","6.20",390,41],
+    [80,"4:12","5:44",32,34,"8.5","29.0","16.4","1.77","6.00",385,38],
+    [75,"4:17","5:56",34,31,"8.6","30.0","18.3","1.73","5.80",375,35],
+    [70,"4:22","6:08",36,29,"8.8","31.0","19.5","1.69","5.60",370,32],
+    [65,"4:27","6:20",38,26,"9.0","32.0","20.7","1.65","5.40",365,30],
+    [60,"4:32","6:32",42,23,"9.2","33.0","22.0","1.61","5.20",345,28],
+    [55,"4:38","6:44",46,20,"9.4","34.0","22.8","1.57","5.00",325,26],
+    [50,"4:44","6:56",50,18,"9.6","35.0","23.5","1.53","4.80",305,24],
+    [45,"4:50","7:08",54,16,"9.8","36.0","23.9","1.49","4.60",295,22],
+    [40,"4:56","7:20",58,14,"10.0","37.0","24.6","1.45","4.40",290,20],
+    [35,"5:02","7:32",62,12,"10.2","38.0","25.1","1.41","4.20",285,18],
+    [30,"5:08","7:44",66,10,"10.4","39.0","25.5","1.37","4.00",280,16],
+    [25,"5:14","7:56",70,8,"10.6","40.0","26.2","1.33","3.80",275,14],
+    [20,"5:20","8:08",74,6,"10.8","41.0","26.8","1.28","3.60",270,12],
+    [15,"5:26","8:20",78,5,"11.0","42.0","27.3","1.23","3.40",265,10],
+    [10,"5:32","8:32",82,4,"11.2","43.0","27.9","1.18","3.20",260,8],
+    [5,"5:38","8:44",86,3,"11.4","44.0","28.3","1.13","3.00",250,6]
+  ];
+  var PE_TABLE = {
+    male:   {label:"男生", cols:PE_COLS_M, rows:PE_ROWS_M, extra:"1000 米跑达到 3:54–3:41 的，附加分 0.5 分；达到 3:40 及以上的，附加分 1 分。"},
+    female: {label:"女生", cols:PE_COLS_F, rows:PE_ROWS_F, extra:"800 米跑达到 3:39–3:26 的，附加分 0.5 分；达到 3:25 及以上的，附加分 1 分。"}
+  };
+  var PE_DAILY = [
+    "《体育与健身》学科考试成绩：满分 6 分（七、八、九年级各 2 分）。学年成绩 85–100 分得 2 分；75–84 分得 1.5 分；60–74 分得 1 分；59 分以下得 0.5 分。",
+    "《国家学生体质健康标准》综合评定：满分 9 分（七、八、九年级各 3 分）。优秀 3 分；良好 2.5 分；及格 2 分；不及格 1 分。",
+    "免考：在市级及以上体育比赛中获个人项目前六名或集体项目前三名的考生，可申请统一考试免考，通过后统一考试成绩按满分 15 分计。"
+  ];
   var CHEERS = [
     "把不会的弄懂，就是把分数一块一块捡回来。",
     "不必和别人比进度，只要今天比昨天多会一点。",
@@ -598,11 +719,20 @@
     var saved = null;
     var raw = store.get(KEY);
     if(raw){ try{ saved = JSON.parse(raw); }catch(e){ saved = null; } }
-    var out = { milestones: defMilestones(), theme: "auto", photoOffset: 0, photoDate: "" };
+    var out = {
+      milestones: defMilestones(), theme: "auto", photoOffset: 0, photoDate: "",
+      peSex: "male", acc: { sched:false, score:false, pe:false }
+    };
     if(saved && typeof saved === "object"){
       if(saved.theme === "dark" || saved.theme === "light" || saved.theme === "auto") out.theme = saved.theme;
       if(typeof saved.photoOffset === "number" && isFinite(saved.photoOffset)) out.photoOffset = Math.floor(saved.photoOffset);
       if(typeof saved.photoDate === "string") out.photoDate = saved.photoDate;
+      if(saved.peSex === "male" || saved.peSex === "female") out.peSex = saved.peSex;
+      if(saved.acc && typeof saved.acc === "object"){
+        ["sched","score","pe"].forEach(function(k){
+          if(typeof saved.acc[k] === "boolean") out.acc[k] = saved.acc[k];
+        });
+      }
       if(Array.isArray(saved.milestones)){
         var defs = defMilestones();
         out.milestones = defs.map(function(def, i){
@@ -710,7 +840,7 @@
         '<div class="hero-quote">' + esc(quote) + '</div>' +
         '<button class="hero-cta" type="button" data-act="goto-details">' +
           '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/></svg>' +
-          '点击查看考试安排 · 分数构成' +
+          '点击查看考试安排 · 分数构成 · 体育评分' +
           '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
         '</button>' +
         '<div class="hero-credit">' + credit + '</div>' +
@@ -842,6 +972,49 @@
       '<tfoot><tr><td>合计</td><td class="c-score">' + total + ' 分</td>' +
       '<td>语文、数学、外语、道德与法治、历史、体育与健身和综合测试的成绩作为录取基本依据</td></tr></tfoot>';
   }
+  function peHTML(){
+    var sex = state.peSex === "female" ? "female" : "male";
+    var t = PE_TABLE[sex];
+    var struct = PE_STRUCT.map(function(r){
+      return '<tr><td data-label="类别" style="font-weight:600;white-space:nowrap">' + esc(r.cat) + '</td>' +
+        '<td class="c-score" data-label="分值">' + esc(r.score) + '</td>' +
+        '<td data-label="可选项目"><span style="color:var(--text-2)">' + r.items + '</span></td></tr>';
+    }).join("");
+    var head = '<tr><th>分值</th>' + t.cols.map(function(c){ return '<th>' + esc(c) + '</th>'; }).join("") + '</tr>';
+    var rows = t.rows.map(function(r){
+      return '<tr>' + r.map(function(v, i){
+        return '<td' + (i === 0 ? ' style="font-weight:650"' : '') + '>' + (v === null ? "—" : esc(v)) + '</td>';
+      }).join("") + '</tr>';
+    }).join("");
+    var seg = [["male","男生"],["female","女生"]].map(function(x){
+      return '<button type="button" data-act="pe-sex" data-sex="' + x[0] + '" aria-pressed="' + (sex === x[0]) + '">' + x[1] + '</button>';
+    }).join("");
+
+    return '' +
+      '<h3>一、统一考试 15 分 · 四大类项目</h3>' +
+      '<div class="table-wrap"><table class="tbl">' +
+        '<thead><tr><th>类别</th><th class="c-score">分值</th><th>可选项目</th></tr></thead>' +
+        '<tbody>' + struct + '</tbody>' +
+        '<tfoot><tr><td>合计</td><td class="c-score">15 分</td><td>四类项目均须参加，每一类选一个自己擅长的项目，选定后不得更改；选择体操的须再选垫上运动、单杠、双杠、支撑跳跃中的两项</td></tr></tfoot>' +
+      '</table></div>' +
+
+      '<h3>二、日常考核 15 分</h3>' +
+      '<ul class="pe-list">' + PE_DAILY.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' +
+
+      '<h3>三、部分项目成绩评价标准</h3>' +
+      '<div class="pe-head">' +
+        '<div class="seg" role="group" aria-label="选择性别">' + seg + '</div>' +
+        '<span class="pe-hint">时间格式为「分:秒」；表格可左右滑动，「分值」列为百分制得分</span>' +
+      '</div>' +
+      '<div class="table-wrap"><table class="tbl wide">' +
+        '<thead>' + head + '</thead><tbody>' + rows + '</tbody>' +
+      '</table></div>' +
+      '<p class="acc-note">附加分：' + esc(t.extra) + '统一考试总分仍为 15 分。' +
+        '第三类项目（乒乓球、羽毛球、网球、武术、体操）的评定标准与各项目场地器材要求见官方文件。' +
+        '以上标准整理自上海市初中毕业升学体育统一考试项目成绩评价标准，实际以当年上海市教育考试院、市教委公布的官方文件为准。' +
+        '<br>参考原文：<a href="https://www.163.com/dy/article/JON2HFRV0516K386.html" target="_blank" rel="noopener">最新上海中考体育评分标准（完整版）</a>' +
+        ' ｜ 官方渠道：<a href="https://www.shmeea.edu.cn" target="_blank" rel="noopener">上海招考热线</a></p>';
+  }
   function pageNoteHTML(){
     var y = examYear();
     return y + ' 年上海中考时间尚未由上海市教育考试院公布：第三级「正式考试」与第二级「外语听说测试、物理和化学实验操作」为按官方发布规律预估，闵行区体育统一测试时间暂未公布、先按 4 月 8 日，均可在设置中修改。' +
@@ -887,11 +1060,29 @@
     document.getElementById("cheerCard").innerHTML = cheerHTML();
     document.getElementById("scheduleTable").innerHTML = scheduleTableHTML(now);
     document.getElementById("scoreTable").innerHTML = scoreTableHTML();
+    document.getElementById("peBody").innerHTML = peHTML();
     document.getElementById("schedCount").textContent = "共 " + scheduleRows(now).length + " 项";
     document.getElementById("pageNote").textContent = pageNoteHTML();
     document.getElementById("brandSub").textContent = examYear() + " 年上海中考 · 三级倒计时";
+    syncAcc();
     lastToday = now.toDateString();
   }
+  // 折叠分区：按上次状态展开/收起
+  function syncAcc(){
+    var list = document.querySelectorAll("details.acc");
+    for(var i = 0; i < list.length; i++){
+      var k = list[i].getAttribute("data-acc");
+      if(k && state.acc) list[i].open = !!state.acc[k];
+    }
+  }
+  document.addEventListener("toggle", function(ev){
+    var d = ev.target;
+    if(!d || d.tagName !== "DETAILS" || !d.classList || !d.classList.contains("acc")) return;
+    var k = d.getAttribute("data-acc");
+    if(!k || !state.acc) return;
+    state.acc[k] = d.open;
+    save();
+  }, true);
 
   /* ================= 每秒更新 ================= */
   function tick(){
@@ -974,8 +1165,16 @@
     if(act === "open-settings"){ openSettings(); return; }
     if(act === "close-settings"){ closeSettings(); return; }
     if(act === "goto-details"){
+      var firstAcc = document.querySelector('details.acc[data-acc="sched"]');
+      if(firstAcc && !firstAcc.open) firstAcc.open = true;
       var box = document.getElementById("details");
       if(box && box.scrollIntoView) box.scrollIntoView({behavior:"smooth", block:"start"});
+      return;
+    }
+    if(act === "pe-sex"){
+      state.peSex = t.getAttribute("data-sex");
+      save();
+      document.getElementById("peBody").innerHTML = peHTML();
       return;
     }
     if(act === "swap-photo"){
@@ -1000,7 +1199,11 @@
     }
     if(act === "reset-all"){
       if(!window.confirm("恢复默认日期？三级日期与备注将回到初始值。")) return;
-      state = { milestones: defMilestones(), theme: state.theme, photoOffset: state.photoOffset, photoDate: state.photoDate };
+      state = {
+        milestones: defMilestones(), theme: state.theme,
+        photoOffset: state.photoOffset, photoDate: state.photoDate,
+        peSex: state.peSex, acc: state.acc
+      };
       save();
       renderAll();
       sheetBody.innerHTML = settingsHTML();
